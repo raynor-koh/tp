@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Remark;
 
 /** Parses input arguments and creates a {@link RemarkCommand}. */
 public class RemarkCommandParser implements Parser<RemarkCommand> {
@@ -16,7 +17,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
         try {
             Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
-            String remark = argMultimap.getValue(PREFIX_REMARK).orElse("");
+            Remark remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK).orElse(""));
             return new RemarkCommand(index, remark);
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
