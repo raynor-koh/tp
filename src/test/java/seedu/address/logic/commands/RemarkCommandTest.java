@@ -1,6 +1,6 @@
 package seedu.address.logic.commands;
 
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOB;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -15,15 +15,20 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Remark;
+import seedu.address.logic.Messages;
+import seedu.address.model.person.Person;
 
 public class RemarkCommandTest {
     private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void execute() {
-        String remark = "Some remark";
-        assertCommandFailure(new RemarkCommand(INDEX_FIRST_PERSON, new Remark(remark)), model,
-                String.format(RemarkCommand.MESSAGE_ARGUMENTS, INDEX_FIRST_PERSON.getOneBased(), remark));
+        Remark remark = new Remark("Some remark");
+        Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person edited = new Person(original.getName(), original.getPhone(), original.getEmail(), original.getAddress(),
+                remark, original.getTags());
+        assertCommandSuccess(new RemarkCommand(INDEX_FIRST_PERSON, remark), model,
+                String.format(RemarkCommand.MESSAGE_ADD_REMARK_SUCCESS, Messages.format(edited)), model);
     }
 
     @Test
