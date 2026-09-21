@@ -31,11 +31,6 @@ public class RemarkCommand extends Command {
         this.remark = remark;
     }
 
-    /** Creates the placeholder command used while the remark parser is not yet implemented. */
-    public RemarkCommand() {
-        this(Index.fromOneBased(1), "");
-    }
-
     @Override
     public CommandResult execute(Model model) throws CommandException {
         throw new CommandException(String.format(MESSAGE_ARGUMENTS, index.getOneBased(), remark));
